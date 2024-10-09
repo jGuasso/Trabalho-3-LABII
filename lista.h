@@ -8,12 +8,24 @@ typedef struct aluno
     char *telefone;
 }Aluno;
 
+typedef struct listaluno
+{
+    Aluno info;
+    struct listaluno *prox;
+}ListaAluno;
+
 typedef struct professor
 {
     int codigo;
     char *nome;
     char *departamento;
 }Professor;
+
+typedef struct listprofessor
+{
+    Professor info;
+    struct listprofessor *prox;
+}ListaProfessor;
 
 typedef enum tipoprojeto{
     Ensino=1,
@@ -31,12 +43,24 @@ typedef struct projeto
     Professor *coordenador;
 }Projeto;
 
+typedef struct listprojeto
+{
+    Projeto info;
+    struct listprojeto *prox;
+}ListaProjeto;
+
 typedef struct vinculo
 {
     Aluno *aluno;
     Projeto *projeto;
     float bolsa;
 }Vinculo;
+
+typedef struct listvinculo
+{
+    Vinculo info;
+    struct listvinculo *prox;
+}ListaVinculo;
 
 
 #endif // LISTA_H
