@@ -70,7 +70,7 @@ void menu_alunos(ListaAluno *listaAlunos){
             break;
 
         case cadastrar:
-            cadastrar_alunos(listaAlunos);
+            listaAlunos = cadastrar_alunos(listaAlunos);
             break;
 
         case listar:

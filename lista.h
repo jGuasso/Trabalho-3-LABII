@@ -62,21 +62,21 @@ typedef struct listvinculo
     struct listvinculo *prox;
 }ListaVinculo;
 
-void cadastrar_alunos(ListaAluno *listaAlunos);
+ListaAluno * cadastrar_alunos(ListaAluno *listaAlunos);
 
 void imprimir_alunos(ListaAluno *listaAlunos);
 
-void cadastrar_projetos(ListaProjeto *listaProjetos);
+ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos);
 
 void imprimir_projetos(ListaProjeto *listaProjetos);
 
-void criar_vinculos(ListaVinculo *listaVinculos);
+ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos);
 
 void excluir_vinculos(ListaVinculo *listaVinculos);
 
 void imprimir_vinculos(ListaVinculo *listaVinculos);
 
-void cadastrar_professores(ListaProfessor *listaProfessores);
+ListaProfessor * cadastrar_professores(ListaProfessor *listaProfessores);
 
 void imprimir_professores(ListaProfessor *listaProfessores);
 
