@@ -21,7 +21,7 @@ void menu_inicial(ListaAluno *listaAlunos, ListaProfessor *listaProfessores, Lis
         printf("\n4 - Professores");
         printf("\n\n0 - Sair\n");
 
-        scanf("%d",&op);
+        scanf("%d",(int*)&op);
         switch (op)
         {
         case sair:
@@ -29,25 +29,25 @@ void menu_inicial(ListaAluno *listaAlunos, ListaProfessor *listaProfessores, Lis
             break;
 
         case alunos:
-            menu_alunos(listaAlunos);
+            listaAlunos= menu_alunos(listaAlunos);
             break;
 
         case projetos:
-            menu_projetos(listaProjetos);
+            listaProjetos= menu_projetos(listaProjetos,listaProfessores);
             break;
 
         case vinculos:
-            menu_vinculos(listaVinculos);
+            listaVinculos= menu_vinculos(listaVinculos);
             break;
 
         case professores:
-            menu_professores(listaProfessores);
+            listaProfessores= menu_professores(listaProfessores);
             break;
         }
     }
 }
 
-void menu_alunos(ListaAluno *listaAlunos){
+ListaAluno * menu_alunos(ListaAluno *listaAlunos){
     enum {
         sair,
         cadastrar,
@@ -62,11 +62,11 @@ void menu_alunos(ListaAluno *listaAlunos){
         printf("\n2 - Listar");
         printf("\n\n0 - Sair\n");
 
-        scanf("%d",&op);
+        scanf("%d",(int*)&op);
         switch (op)
         {
         case sair:
-            return;
+            return listaAlunos;
             break;
 
         case cadastrar:
@@ -78,9 +78,10 @@ void menu_alunos(ListaAluno *listaAlunos){
             break;
         }
     }
+    return listaAlunos;
 }
 
-void menu_projetos(ListaProjeto *listaProjetos){
+ListaProjeto * menu_projetos(ListaProjeto *listaProjetos,ListaProfessor *listaProfessores){
     enum {
         sair,
         cadastrar,
@@ -95,15 +96,15 @@ void menu_projetos(ListaProjeto *listaProjetos){
         printf("\n2 - Listar");
         printf("\n\n0 - Sair\n");
 
-        scanf("%d",&op);
+        scanf("%d",(int*)&op);
         switch (op)
         {
         case sair:
-            return;
+            return listaProjetos;
             break;
 
         case cadastrar:
-            cadastrar_projetos(listaProjetos);
+            listaProjetos= cadastrar_projetos(listaProjetos,listaProfessores);
             break;
 
         case listar:
@@ -111,9 +112,10 @@ void menu_projetos(ListaProjeto *listaProjetos){
             break;
         }
     }
+    return listaProjetos;
 }
 
-void menu_vinculos(ListaVinculo *listaVinculos){
+ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos){
     enum {
         sair,
         criar,
@@ -130,15 +132,15 @@ void menu_vinculos(ListaVinculo *listaVinculos){
         printf("\n3 - Listar");
         printf("\n\n0 - Sair\n");
 
-        scanf("%d",&op);
+        scanf("%d",(int*)&op);
         switch (op)
         {
         case sair:
-            return;
+            return listaVinculos;
             break;
 
         case criar:
-            criar_vinculos(listaVinculos);
+            listaVinculos =  criar_vinculos(listaVinculos);
             break;
 
         case excluir:
@@ -150,9 +152,10 @@ void menu_vinculos(ListaVinculo *listaVinculos){
             break;
         }
     }
+    return listaVinculos;
 }
 
-void menu_professores(ListaProfessor *listaProfessores){
+ListaProfessor * menu_professores(ListaProfessor *listaProfessores){
      enum {
         sair,
         cadastrar,
@@ -167,15 +170,15 @@ void menu_professores(ListaProfessor *listaProfessores){
         printf("\n2 - Listar");
         printf("\n\n0 - Sair\n");
 
-        scanf("%d",&op);
+        scanf("%d",(int*)&op);
         switch (op)
         {
         case sair:
-            return;
+            return listaProfessores;
             break;
 
         case cadastrar:
-            cadastrar_professores(listaProfessores);
+            listaProfessores = cadastrar_professores(listaProfessores);
             break;
 
         case listar:
@@ -183,4 +186,5 @@ void menu_professores(ListaProfessor *listaProfessores){
             break;
         }
     }
+    return listaProfessores;
 }

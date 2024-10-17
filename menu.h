@@ -4,13 +4,13 @@
 
 void menu_inicial(ListaAluno *listaAlunos, ListaProfessor *listaProfessores, ListaProjeto *listaProjetos, ListaVinculo *listaVinculos);
 
-void menu_professores(ListaProfessor *listaProfessores);
+ListaProfessor * menu_professores(ListaProfessor *listaProfessores);
 
-void menu_alunos(ListaAluno *listaAlunos);
+ListaAluno * menu_alunos(ListaAluno *listaAlunos);
 
-void menu_vinculos(ListaVinculo *listaVinculos);
+ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos);
 
-void menu_projetos(ListaProjeto *listaProjetos);
+ListaProjeto * menu_projetos(ListaProjeto *listaProjetos,ListaProfessor *listaProfessores);
 
 
 #endif // MENU_H

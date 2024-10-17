@@ -66,7 +66,7 @@ ListaAluno * cadastrar_alunos(ListaAluno *listaAlunos);
 
 void imprimir_alunos(ListaAluno *listaAlunos);
 
-ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos);
+ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *listaProfessores);
 
 void imprimir_projetos(ListaProjeto *listaProjetos);
 
