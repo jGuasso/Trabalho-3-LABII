@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Funcao usada para limpar o buffer
+
+// Funcao usada para limpar o buffer
+// https://pt.stackoverflow.com/questions/9427/limpeza-do-buffer-do-teclado-após-scanf
 void flush_in(){
     int ch;
     while( (ch = fgetc(stdin)) != EOF && ch != '\n' ){} 
@@ -32,10 +34,6 @@ ListaAluno * cadastrar_alunos(ListaAluno *listaAlunos){
 
     flush_in();
 
-    printf("\n%d\n%s\n%s",novoNo->info.matricula,
-                              novoNo->info.nome,
-                              novoNo->info.telefone);
-
     return novoNo;
 }
 
@@ -44,9 +42,9 @@ void imprimir_alunos(ListaAluno *listaAlunos){
 
     for ( ; p!=NULL; p=p->prox)
     {
-        printf("\n%d\n%s\n%s",p->info.matricula,
-                              p->info.nome,
-                              p->info.telefone);
+        printf("\n\n Nome: %s",p->info.nome);
+        printf("\n Matricula: %d",p->info.matricula);
+        printf("\n Telefone: %s",p->info.telefone);
     }
     
 
@@ -54,35 +52,34 @@ void imprimir_alunos(ListaAluno *listaAlunos){
 
 Professor * vincular_proj_prof(ListaProfessor *listaProfessores){
     ListaProfessor *p;
-    int count,escolha;
-    do
+    int escolha;
+    
+    while (1)
     {
-        count=0;
         printf("\nEscolha o professor responsavel: ");
-        if(p==NULL){
-            printf("\nNULO");
-            abort();
-        }
+
+        imprimir_professores(listaProfessores);
+
+        printf("\nDigite o codigo do professor:");
+        scanf("%d",&escolha);
+
         for (p=listaProfessores; p != NULL ;p=p->prox)
         {
-            count++;
-            printf("\n%d - %s",count,p->info.nome);
-        }
-        scanf("%d",&escolha);
-    } while (escolha<=0||escolha>count);
-
-    count=0;
-    for (p=listaProfessores; p != NULL ;p=p->prox)
-    {
-        count++;
-        if(count==escolha){
-            return &p->info;
+            if(escolha==p->info.codigo){
+                return &p->info;
+            }
         }
     }
+
     return NULL;
 }
 
 ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *listaProfessores){
+    if (listaProfessores==NULL)
+    {
+        printf("\n\nNao existem professores cadastrados!");
+        return listaProjetos;
+    }
     ListaProjeto* novoNo;
     novoNo=(ListaProjeto*)malloc(sizeof(ListaProjeto));
     novoNo->prox=listaProjetos;
@@ -104,7 +101,7 @@ ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *l
         printf("\nQual o tipo do projeto:");
         printf("\n1 - Ensino");
         printf("\n2 - Pesquisa");
-        printf("\n3 - Extensao");
+        printf("\n3 - Extensao\n");
         scanf("%d",(int*)&novoNo->info.tipo);
     } while (novoNo->info.tipo<1||
              novoNo->info.tipo>3);
@@ -129,34 +126,47 @@ ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *l
 
     novoNo->info.coordenador = vincular_proj_prof(listaProfessores);
 
-    printf("\n%d",novoNo->info.codigo);
-    printf("\n%s",novoNo->info.coordenador->nome);
-    printf("\n%s",novoNo->info.descricao);
-    printf("\n%f",novoNo->info.orcAprovado);
-    printf("\n%f",novoNo->info.orcAtual);
-    switch (novoNo->info.tipo)
-    {
-    case Ensino:
-        printf("\nEnsino");
-        break;
-    case Pesquisa:
-        printf("\nPesquisa");
-        break;
-    case Extensao:
-        printf("\nExtensao");
-        break;
-    default:
-        break;
-    }
-
     return novoNo;
 }
 
 void imprimir_projetos(ListaProjeto *listaProjetos){
+    ListaProjeto *p=listaProjetos;
+
+    for ( ; p!=NULL; p=p->prox)
+    {
+        printf("\n%d",p->info.codigo);
+        printf("\n%s",p->info.coordenador->nome);
+        printf("\n%s",p->info.descricao);
+        printf("\n%f",p->info.orcAprovado);
+        printf("\n%f",p->info.orcAtual);
+        switch (p->info.tipo)
+        {
+        case Ensino:
+            printf("\nEnsino");
+            break;
+        case Pesquisa:
+            printf("\nPesquisa");
+            break;
+        case Extensao:
+            printf("\nExtensao");
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+Projeto *vincular_vinc_proj(ListaProjeto *listaProjetos){
 
 }
 
-ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos){
+ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listAlunos){
+    ListaVinculo * novoNo;
+    novoNo=(ListaVinculo*)malloc(sizeof(ListaVinculo));   
+    
+    flush_in();
+
+    
 
 }
 
@@ -192,10 +202,6 @@ ListaProfessor * cadastrar_professores(ListaProfessor *listaProfessores){
 
     flush_in();
 
-    printf("\n%d\n%s\n%s",novoNo->info.codigo,
-                          novoNo->info.nome,
-                          novoNo->info.departamento);
-
     return novoNo;
 }
 
@@ -204,8 +210,8 @@ void imprimir_professores(ListaProfessor *listaProfessores){
 
     for ( ; p!=NULL; p=p->prox)
     {
-        printf("\n%d\n%s\n%s",p->info.codigo,
-                              p->info.nome,
-                              p->info.departamento);
+        printf("\n\n Nome: %s",p->info.nome);
+        printf("\n Codigo: %d",p->info.codigo);
+        printf("\n Departamento: %s",p->info.departamento);
     }
 }

@@ -70,7 +70,7 @@ ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *l
 
 void imprimir_projetos(ListaProjeto *listaProjetos);
 
-ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos);
+ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listAlunos);
 
 void excluir_vinculos(ListaVinculo *listaVinculos);
 

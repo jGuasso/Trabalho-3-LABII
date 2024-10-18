@@ -8,7 +8,7 @@ ListaProfessor * menu_professores(ListaProfessor *listaProfessores);
 
 ListaAluno * menu_alunos(ListaAluno *listaAlunos);
 
-ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos);
+ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listAlunos);
 
 ListaProjeto * menu_projetos(ListaProjeto *listaProjetos,ListaProfessor *listaProfessores);
 

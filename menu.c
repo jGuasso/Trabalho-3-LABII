@@ -37,7 +37,7 @@ void menu_inicial(ListaAluno *listaAlunos, ListaProfessor *listaProfessores, Lis
             break;
 
         case vinculos:
-            listaVinculos= menu_vinculos(listaVinculos);
+            listaVinculos= menu_vinculos(listaVinculos,listaProjetos,listaAlunos);
             break;
 
         case professores:
@@ -115,7 +115,7 @@ ListaProjeto * menu_projetos(ListaProjeto *listaProjetos,ListaProfessor *listaPr
     return listaProjetos;
 }
 
-ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos){
+ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listaAlunos){
     enum {
         sair,
         criar,
@@ -140,7 +140,7 @@ ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos){
             break;
 
         case criar:
-            listaVinculos =  criar_vinculos(listaVinculos);
+            listaVinculos =  criar_vinculos(listaVinculos,listaProjetos,listaAlunos);
             break;
 
         case excluir:
