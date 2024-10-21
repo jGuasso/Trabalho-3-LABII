@@ -115,12 +115,7 @@ ListaProjeto * cadastrar_projetos(ListaProjeto *listaProjetos, ListaProfessor *l
         scanf("%f",&novoNo->info.orcAprovado);
     } while (novoNo->info.orcAprovado<0);
 
-    do
-    {
-        printf("\nDigite o orcamento atual do projeto: ");
-        scanf("%f",&novoNo->info.orcAtual);
-    } while (!(novoNo->info.orcAtual<=novoNo->info.orcAprovado &&
-               novoNo->info.orcAtual>=0));
+    novoNo->info.orcAtual=novoNo->info.orcAprovado;
 
     flush_in();
 
@@ -134,21 +129,22 @@ void imprimir_projetos(ListaProjeto *listaProjetos){
 
     for ( ; p!=NULL; p=p->prox)
     {
-        printf("\n%d",p->info.codigo);
-        printf("\n%s",p->info.coordenador->nome);
-        printf("\n%s",p->info.descricao);
-        printf("\n%f",p->info.orcAprovado);
-        printf("\n%f",p->info.orcAtual);
+        printf("\n\n Codigo do projeto: %d",p->info.codigo);
+        printf("\n Professor coordenador: %s",p->info.coordenador->nome);
+        printf("\n Descricao: %s",p->info.descricao);
+        printf("\n Orcamento aprovado: R$%.2f",p->info.orcAprovado);
+        printf("\n Orcamento atual: R$%.2f",p->info.orcAtual);
+        printf("\n Tipo: ");
         switch (p->info.tipo)
         {
         case Ensino:
-            printf("\nEnsino");
+            printf("Ensino");
             break;
         case Pesquisa:
-            printf("\nPesquisa");
+            printf("Pesquisa");
             break;
         case Extensao:
-            printf("\nExtensao");
+            printf("Extensao");
             break;
         default:
             break;
@@ -157,25 +153,107 @@ void imprimir_projetos(ListaProjeto *listaProjetos){
 }
 
 Projeto *vincular_vinc_proj(ListaProjeto *listaProjetos){
+    ListaProjeto *p;
+    int escolha;
+    
+    while (1)
+    {
+        printf("\nEscolha o Projeto: ");
 
+        imprimir_projetos(listaProjetos);
+
+        printf("\nDigite o codigo do projeto:");
+        scanf("%d",&escolha);
+
+        for (p=listaProjetos; p != NULL ;p=p->prox)
+        {
+            if(escolha==p->info.codigo){
+                return &p->info;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+
+Aluno *vincular_vinc_aluno(ListaAluno *listaAlunos){
+    ListaAluno *p;
+    int escolha;
+    
+    while (1)
+    {
+        printf("\nEscolha o Aluno: ");
+
+        imprimir_alunos(listaAlunos);
+
+        printf("\nDigite a matricula do aluno:");
+        scanf("%d",&escolha);
+
+        for (p=listaAlunos; p != NULL ;p=p->prox)
+        {
+            if(escolha==p->info.matricula){
+                return &p->info;
+            }
+        }
+    }
+
+    return NULL;
 }
 
 ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listAlunos){
+    if (listaProjetos==NULL)
+    {
+        printf("\n\nNao existem projetos cadastrados");
+        return NULL;
+    }
+    if (listAlunos==NULL)
+    {
+        printf("\n\nNao existem alunos cadastrados");
+        return NULL;
+    }
     ListaVinculo * novoNo;
-    novoNo=(ListaVinculo*)malloc(sizeof(ListaVinculo));   
+    novoNo->prox=listaVinculos;
+    novoNo=(ListaVinculo*)malloc(sizeof(ListaVinculo));
+    novoNo->info.projeto=vincular_vinc_proj(listaProjetos);
+    novoNo->info.aluno=vincular_vinc_aluno(listAlunos);
+
+    do
+    {
+        printf("\nO valor da bolsa deve ir de 0 a no maximo %2.f",novoNo->info.projeto->orcAtual/12);
+        printf("\nDigite o valor da bolsa mensal do aluno: ");
+        flush_in();
+        scanf("%f",&novoNo->info.bolsa);
+
+    } while (novoNo->info.bolsa<0|| novoNo->info.bolsa*12>novoNo->info.projeto->orcAtual);
+
+    novoNo->info.projeto->orcAtual-=novoNo->info.bolsa*12;
     
+
     flush_in();
-
-    
-
+    return novoNo;
 }
 
 void excluir_vinculos(ListaVinculo *listaVinculos){
+    int mat, cod;
+    printf("\n\nDigite a matricula do aluno: ");
+    scanf("%d",&mat);
+    printf("\n\nDigite o codigo do projeto: ");
+    scanf("%d",&cod);
+
+     
 
 }
 
 void imprimir_vinculos(ListaVinculo *listaVinculos){
+    ListaVinculo *p=listaVinculos;
 
+    for ( ; p!=NULL; p=p->prox)
+    {
+        printf("\n\n Projeto: %s",p->info.projeto->descricao);
+        printf("\n Aluno: %s",p->info.aluno->nome);
+        printf("\n bolsa: R$%.2f",p->info.bolsa);
+    }
 }
 
 ListaProfessor * cadastrar_professores(ListaProfessor *listaProfessores){
