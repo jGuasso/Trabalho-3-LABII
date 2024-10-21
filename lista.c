@@ -220,7 +220,7 @@ ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaPr
 
     do
     {
-        printf("\nO valor da bolsa deve ir de 0 a no maximo %2.f",novoNo->info.projeto->orcAtual/12);
+        printf("\nO valor da bolsa deve ir de 0 a no maximo %2.f",novoNo->info.projeto->orcAtual/12.0);
         printf("\nDigite o valor da bolsa mensal do aluno: ");
         flush_in();
         scanf("%f",&novoNo->info.bolsa);
