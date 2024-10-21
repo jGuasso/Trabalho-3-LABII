@@ -25,6 +25,7 @@ void menu_inicial(ListaAluno *listaAlunos, ListaProfessor *listaProfessores, Lis
         switch (op)
         {
         case sair:
+            imprimir_relatorio(listaProjetos,listaVinculos);
             return;
             break;
 
@@ -144,7 +145,7 @@ ListaVinculo * menu_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaPro
             break;
 
         case excluir:
-            excluir_vinculos(listaVinculos);
+            listaVinculos = excluir_vinculos(listaVinculos);
             break;
 
         case listar:

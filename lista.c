@@ -213,8 +213,8 @@ ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaPr
         return NULL;
     }
     ListaVinculo * novoNo;
-    novoNo->prox=listaVinculos;
     novoNo=(ListaVinculo*)malloc(sizeof(ListaVinculo));
+    novoNo->prox=listaVinculos;
     novoNo->info.projeto=vincular_vinc_proj(listaProjetos);
     novoNo->info.aluno=vincular_vinc_aluno(listAlunos);
 
@@ -234,15 +234,38 @@ ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaPr
     return novoNo;
 }
 
-void excluir_vinculos(ListaVinculo *listaVinculos){
-    int mat, cod;
+ListaVinculo* excluir_vinculos(ListaVinculo *listaVinculos){
+    int mat, cod, meses;
+    ListaVinculo *p=listaVinculos,*ant=NULL;
     printf("\n\nDigite a matricula do aluno: ");
     scanf("%d",&mat);
     printf("\n\nDigite o codigo do projeto: ");
     scanf("%d",&cod);
+    printf("\n\nQuantidade de meses que a bolsa nao sera paga: ");
+    scanf("%d",&meses);
 
-     
-
+    for (; p!=NULL; p=p->prox)
+    {
+        if (p->info.projeto->codigo==cod &&
+            p->info.aluno->matricula==mat)
+        {
+            p->info.projeto->orcAtual+= p->info.bolsa*meses;
+            if(ant==NULL){
+                ant= p->prox;
+                free(p);
+                return ant;
+            }
+            else
+            {
+                ant->prox=p->prox;
+                free(p);
+                return listaVinculos;
+            }
+            
+        }
+        ant=p;
+    }
+    return listaVinculos;
 }
 
 void imprimir_vinculos(ListaVinculo *listaVinculos){
@@ -250,8 +273,8 @@ void imprimir_vinculos(ListaVinculo *listaVinculos){
 
     for ( ; p!=NULL; p=p->prox)
     {
-        printf("\n\n Projeto: %s",p->info.projeto->descricao);
-        printf("\n Aluno: %s",p->info.aluno->nome);
+        printf("\n\n Projeto:(%d) %s",p->info.projeto->codigo,p->info.projeto->descricao);
+        printf("\n Aluno:(%d) %s",p->info.aluno->matricula,p->info.aluno->nome);
         printf("\n bolsa: R$%.2f",p->info.bolsa);
     }
 }
@@ -292,4 +315,49 @@ void imprimir_professores(ListaProfessor *listaProfessores){
         printf("\n Codigo: %d",p->info.codigo);
         printf("\n Departamento: %s",p->info.departamento);
     }
+}
+
+void imprimir_relatorio(ListaProjeto *listaProjetos, ListaVinculo *listaVinculos){
+    ListaProjeto *p=listaProjetos;
+    ListaVinculo *k;
+    char ver;
+
+    for ( ; p!=NULL; p=p->prox)
+    {
+        printf("\n\n Codigo do projeto: %d",p->info.codigo);
+        printf("\n Professor coordenador: %s",p->info.coordenador->nome);
+        printf("\n Descricao: %s",p->info.descricao);
+        printf("\n Orcamento aprovado: R$%.2f",p->info.orcAprovado);
+        printf("\n Orcamento atual: R$%.2f",p->info.orcAtual);
+        printf("\n Tipo: ");
+        switch (p->info.tipo)
+        {
+        case Ensino:
+            printf("Ensino");
+            break;
+        case Pesquisa:
+            printf("Pesquisa");
+            break;
+        case Extensao:
+            printf("Extensao");
+            break;
+        default:
+            break;
+        }
+
+        ver=0;
+        printf("\nAlunos:");
+        for (k = listaVinculos; k!=NULL; k=k->prox)
+        {
+            if(k->info.projeto->codigo==p->info.codigo){
+                printf("\n %s",k->info.aluno->nome);
+                ver=1;
+            }
+        }
+        if(ver==0){
+            printf("\n Nao ha alunos vinculados a este projeto");
+        }
+        
+    }
+
 }

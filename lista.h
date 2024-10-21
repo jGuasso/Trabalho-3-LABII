@@ -72,12 +72,14 @@ void imprimir_projetos(ListaProjeto *listaProjetos);
 
 ListaVinculo * criar_vinculos(ListaVinculo *listaVinculos, ListaProjeto *listaProjetos, ListaAluno *listAlunos);
 
-void excluir_vinculos(ListaVinculo *listaVinculos);
+ListaVinculo * excluir_vinculos(ListaVinculo *listaVinculos);
 
 void imprimir_vinculos(ListaVinculo *listaVinculos);
 
 ListaProfessor * cadastrar_professores(ListaProfessor *listaProfessores);
 
 void imprimir_professores(ListaProfessor *listaProfessores);
+
+void imprimir_relatorio(ListaProjeto *listaProjetos, ListaVinculo *listaVinculos);
 
 #endif // LISTA_H
